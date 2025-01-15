@@ -3,7 +3,7 @@ import React from "react";
 import { useSearchParams } from "react-router-dom";
 import ArchivePage from "../pages/ArchivePage";
 
-function ArchivePageWrapper({ archivedNotes }) {
+function ArchivePageWrapper({ getArchivedNotes }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   function changeSearchParams(keyword) {
@@ -12,7 +12,7 @@ function ArchivePageWrapper({ archivedNotes }) {
 
   return (
     <ArchivePage
-      archivedNotes={archivedNotes}
+      archivedNotes={getArchivedNotes()}
       onSearch={changeSearchParams}
       activeKeyword={searchParams.get("keyword")}
     />
@@ -20,15 +20,7 @@ function ArchivePageWrapper({ archivedNotes }) {
 }
 
 ArchivePageWrapper.propTypes = {
-  archivedNotes: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      body: PropTypes.string.isRequired,
-      createdAt: PropTypes.string.isRequired,
-      archived: PropTypes.bool.isRequired,
-    }),
-  ),
+  getArchivedNotes: PropTypes.func.isRequired,
 };
 
 export default ArchivePageWrapper;

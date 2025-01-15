@@ -3,7 +3,7 @@ import React from "react";
 import { useSearchParams } from "react-router-dom";
 import HomePage from "../pages/HomePage";
 
-function HomePageWrapper({ activeNotes }) {
+function HomePageWrapper({ getActiveNotes }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   function changeSearchParams(keyword) {
@@ -12,7 +12,7 @@ function HomePageWrapper({ activeNotes }) {
 
   return (
     <HomePage
-      activeNotes={activeNotes}
+      activeNotes={getActiveNotes()}
       onSearch={changeSearchParams}
       activeKeyword={searchParams.get("keyword")}
     />
@@ -20,15 +20,7 @@ function HomePageWrapper({ activeNotes }) {
 }
 
 HomePageWrapper.propTypes = {
-  activeNotes: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      body: PropTypes.string.isRequired,
-      createdAt: PropTypes.string.isRequired,
-      archived: PropTypes.bool.isRequired,
-    }),
-  ),
+  getActiveNotes: PropTypes.func.isRequired,
 };
 
 export default HomePageWrapper;

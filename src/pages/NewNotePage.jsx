@@ -12,7 +12,7 @@ class NewNotePage extends React.Component {
     };
 
     this.handleTitleOnChange = this.handleTitleOnChange.bind(this);
-    this.onInputHandler = this.onInputHandler.bind(this);
+    this.handleBodyOnChange = this.handleBodyOnChange.bind(this);
   }
 
   handleTitleOnChange(event) {
@@ -21,11 +21,9 @@ class NewNotePage extends React.Component {
     });
   }
 
-  onInputHandler(event) {
-    this.setState(() => {
-      return {
-        body: event.target.innerHTML,
-      };
+  handleBodyOnChange(event) {
+    this.setState({
+      body: event.target.innerHTML,
     });
   }
 
@@ -43,7 +41,7 @@ class NewNotePage extends React.Component {
             className="add-new-page__input__body"
             data-placeholder="Isi Catatan"
             contentEditable
-            onInput={this.onInputHandler}
+            onInput={this.handleBodyOnChange}
           />
         </div>
         <div className="add-new-page__action">

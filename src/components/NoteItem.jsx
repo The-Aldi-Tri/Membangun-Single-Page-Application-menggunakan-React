@@ -1,4 +1,4 @@
-import parser from "html-react-parser";
+import parse from "html-react-parser";
 import PropTypes from "prop-types";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -11,7 +11,7 @@ function NoteItem({ id, title, body, createdAt }) {
         <Link to={`/notes/${id}`}>{title}</Link>
       </h3>
       <p className="note-item__createdAt">{showFormattedDate(createdAt)}</p>
-      <div className="note-item__body">{parser(body)}</div>
+      <div className="note-item__body">{parse(body)}</div>
     </article>
   );
 }

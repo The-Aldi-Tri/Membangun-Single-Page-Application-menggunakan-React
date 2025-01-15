@@ -22,6 +22,7 @@ class App extends React.Component {
     this.handleNewNote = this.handleNewNote.bind(this);
     this.getActiveNotes = this.getActiveNotes.bind(this);
     this.getArchivedNotes = this.getArchivedNotes.bind(this);
+    this.getNote = this.getNote.bind(this);
   }
 
   handleArchiveNote(noteId) {
@@ -75,6 +76,10 @@ class App extends React.Component {
     return this.state.notes.filter((note) => note.archived);
   }
 
+  getNote(noteId) {
+    return this.state.notes.find((note) => note.id === noteId);
+  }
+
   render() {
     return (
       <div className="app-container">
@@ -83,12 +88,12 @@ class App extends React.Component {
           <Routes>
             <Route
               path="/"
-              element={<HomePageWrapper activeNotes={this.getActiveNotes()} />}
+              element={<HomePageWrapper getActiveNotes={this.getActiveNotes} />}
             />
             <Route
               path="/archives"
               element={
-                <ArchivePageWrapper archivedNotes={this.getArchivedNotes()} />
+                <ArchivePageWrapper getArchivedNotes={this.getArchivedNotes} />
               }
             />
             <Route
@@ -99,7 +104,7 @@ class App extends React.Component {
               path="/notes/:noteId"
               element={
                 <DetailPage
-                  notes={this.state.notes}
+                  getNote={this.getNote}
                   handleArchiveNote={this.handleArchiveNote}
                   handleUnarchiveNote={this.handleUnarchiveNote}
                   handleDeleteNote={this.handleDeleteNote}

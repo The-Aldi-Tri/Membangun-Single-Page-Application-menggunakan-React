@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ArchiveNoteButton from "../components/ArchiveNoteButton";
 import DeleteNoteButton from "../components/DeleteNoteButton";
 import NoteDetail from "../components/NoteDetail";
@@ -8,13 +8,14 @@ import UnarchiveNoteButton from "../components/UnarchiveNoteButton";
 import NotFoundPage from "./NotFoundPage";
 
 function DetailPage({
-  notes,
+  getNote,
   handleArchiveNote,
   handleUnarchiveNote,
   handleDeleteNote,
 }) {
   const { noteId } = useParams();
-  const note = notes.find((note) => note.id === noteId);
+  const note = getNote(noteId);
+  const navigate = useNavigate();
 
   return note ? (
     <section className="detail-page">
@@ -26,12 +27,25 @@ function DetailPage({
       <div className="detail-page__action">
         {note.archived ? (
           <UnarchiveNoteButton
-            handleOnClick={() => handleUnarchiveNote(noteId)}
+            handleOnClick={() => {
+              handleUnarchiveNote(noteId);
+              navigate("/archives");
+            }}
           />
         ) : (
-          <ArchiveNoteButton handleOnClick={() => handleArchiveNote(noteId)} />
+          <ArchiveNoteButton
+            handleOnClick={() => {
+              handleArchiveNote(noteId);
+              navigate("/");
+            }}
+          />
         )}
-        <DeleteNoteButton handleOnClick={() => handleDeleteNote(noteId)} />
+        <DeleteNoteButton
+          handleOnClick={() => {
+            handleDeleteNote(noteId);
+            note.archived ? navigate("/archives") : navigate("/");
+          }}
+        />
       </div>
     </section>
   ) : (
@@ -40,15 +54,7 @@ function DetailPage({
 }
 
 DetailPage.propTypes = {
-  notes: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      body: PropTypes.string.isRequired,
-      createdAt: PropTypes.string.isRequired,
-      archived: PropTypes.bool.isRequired,
-    }),
-  ),
+  getNote: PropTypes.func.isRequired,
   handleArchiveNote: PropTypes.func.isRequired,
   handleUnarchiveNote: PropTypes.func.isRequired,
   handleDeleteNote: PropTypes.func.isRequired,

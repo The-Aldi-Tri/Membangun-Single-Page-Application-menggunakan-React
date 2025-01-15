@@ -1,15 +1,20 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function SaveNoteButton({ handleOnClick }) {
+  const navigate = useNavigate();
+
   return (
     <Link to={"/"}>
       <button
         className="action"
         type="button"
         title="Simpan"
-        onClick={handleOnClick}
+        onClick={() => {
+          handleOnClick();
+          navigate("/");
+        }}
       >
         <svg
           width="800px"
